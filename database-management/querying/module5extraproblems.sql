@@ -11,7 +11,7 @@ select OrdNo, OrdDate, Customer.CustNo, CustFirstName, CustLastName, Employee.Em
 -- 2 List the customer number, name (first and last), order number, order date, employee number, employee name (first and last), 
 -- product number, product name, and order cost (OrdLine.Qty * ProdPrice) for products ordered on January 23, 2021, in which the order cost exceeds $150.
 
-select CustFirstName, CustLastName, OrderTbl.OrdNo, OrdDate, Employee.EmpNo, EmpFirstName, EmpLastName, 
+select Customer.CustNo, CustFirstName, CustLastName, OrderTbl.OrdNo, OrdDate, Employee.EmpNo, EmpFirstName, EmpLastName, 
 	Product.ProdNo, ProdName, Qty * ProdPrice as OrderCost
 	from Customer inner join OrderTbl
 		on Customer.CustNo = OrderTbl.CustNo
@@ -63,3 +63,35 @@ select OrderTbl.OrdNo, OrdDate, CustFirstName, CustLastName, EmpFirstName, EmpLa
 	group by OrderTbl.OrdNo, OrdDate, CustFirstName, CustLastName,
 		EmpFirstName, EmpLastName
 	having count(*) > 2;
+	
+-- 6. Insert yourself as a new row in the Customer table.
+
+insert into Customer
+(CustNo, CustFirstName, CustLastName, CustStreet, CustCity, CustState, CustZip, CustBal)
+	values ('C9999999', 'Gordan', 'Ramsay', 'Union Hill Rd', 'Crisp', 'TX', 75119, 1000)
+	
+-- 7. Insert an imaginary friend as a new row in the Employee table.
+
+insert into Employee
+(EmpNo, EmpFirstName, EmpLastName, EmpPhone, EmpEmail, SupEmpNo, EmpCommRate)
+	values ('E9999999', 'Stephanie', 'Lewis', '(303) 345-6789', 'slewis@bigco.com', 'E9345771', 0.025);
+
+-- 8. Increase the price by 10 percent of products containing the words Ink Jet. 
+
+select * from Product
+	where ProdName like '%Ink Jet%';
+
+update Product
+	set ProdPrice = ProdPrice * 1.10
+	where ProdName like '%Ink Jet%';
+
+select * from Product
+	where ProdName like '%Ink Jet%';
+
+-- 9. Delete the new rows added to the Customer and Employee tables.
+
+delete from Customer
+	where CustNo = 'C9999999';
+
+delete from Employee
+	where EmpNo = 'E9999999';
